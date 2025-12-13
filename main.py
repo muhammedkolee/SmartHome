@@ -1,9 +1,54 @@
-import Sensors.waterSensor as ws	    # ws => water sensor
-import Sensors.example as ex            # for example function
 import threading
+from queue import LifoQueue
+import Sensors.waterSensor as ws
+import Sensors.gasSensor as gs
+import Sensors.temperatureSensor as tm
+import Sensors.miniPir as mp
+import Sensors.ledScreen as lcd
+from logger import setup_logger
 
-waterThread = threading.Thread(target = ws.startWaterSensor)    # Create a thread for water sensor.
-exThread = threading.Thread(target = ex.greet)                  # Create a thread for example code.
+message_queue = LifoQueue()
+logger = setup_logger()
 
-waterThread.start()         # Water sensor start as thread.
-exThread.start()            # Example code start as thread while water sensor is running.
+def log_listener():
+    while True:
+        pass
+
+waterThread = threading.Thread(
+    target=ws.startWaterSensor,
+    args=(message_queue, logger),
+    daemon=True
+)
+
+gasThread = threading.Thread(
+    target=gs.startGasSensor,
+    args=(message_queue, logger),
+    daemon=True
+)
+
+tempThread = threading.Thread(
+    target=tm.startTemperatureSensor,
+    args=(message_queue, logger),
+    daemon=True
+)
+
+pirThread = threading.Thread(
+    target=mp.startMiniPirSensor,
+    args=(message_queue, logger),
+    daemon=True
+)
+
+lcdThread = threading.Thread(
+    target=lcd.startLedScreen,
+    args=(message_queue,),
+    daemon=True
+)
+
+waterThread.start()
+gasThread.start()
+tempThread.start()
+pirThread.start()
+lcdThread.start()
+
+while True:
+    pass
