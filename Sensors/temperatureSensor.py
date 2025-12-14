@@ -9,10 +9,11 @@ dht_device = adafruit_dht.DHT11(board.D12, use_pulseio=False)
 temperature = "None"
 humidity = "None"
 
-def startTemperatureSensor(queue, logger):
+def startTemperatureSensor(enableEvent, queue, logger):
 	count = 0
 	while True:
 		try:
+			enableEvent.wait()
 			temperature = dht_device.temperature
 			humidity = dht_device.humidity
 			if temperature == None or humidity == None:

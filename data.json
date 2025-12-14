@@ -1,0 +1,7 @@
+{
+    "gasSensor": true,
+    "miniPir": true,
+    "temperatureSensor": true,
+    "waterSensor": true,
+    "curtain": false
+}

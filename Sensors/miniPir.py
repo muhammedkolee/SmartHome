@@ -11,11 +11,12 @@ print("Calibrating mini PIR...")
 time.sleep(5)
 print("Mini Pir is Ready!")
 
-def startMiniPirSensor(queue, logger):
-    count = 0
+def startMiniPirSensor(enableEvent, queue, logger):
+    count = 30
     isWrited = False
     try:
         while True:
+            enableEvent.wait()
             if GPIO.input(PIR_PIN) == 1:
                 if count >= 30:
                     logger.warning("Hareket algilandi.")

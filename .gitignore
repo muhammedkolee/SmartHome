@@ -1,2 +1,4 @@
 __pycache__
 Code.py
+.env
+mainTemp.py

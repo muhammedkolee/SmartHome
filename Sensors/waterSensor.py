@@ -2,7 +2,7 @@
 import RPi.GPIO as GPIO
 import time
 
-def startWaterSensor(queue, logger):
+def startWaterSensor(enableEvent, queue, logger):
     SENSOR_PIN = 21
     isWrited = False
 
@@ -13,6 +13,8 @@ def startWaterSensor(queue, logger):
 
     try:
         while True:
+            enableEvent.wait()
+
             if GPIO.input(SENSOR_PIN) == 1:  
                 queue.put("Su algilandi!")
                 logger.warning("Su algilandi.")

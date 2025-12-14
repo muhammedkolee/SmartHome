@@ -6,9 +6,10 @@ GAS_PIN = 16
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(GAS_PIN, GPIO.IN)
 
-def startGasSensor(queue, logger):
+def startGasSensor(enableEvent, queue, logger):
     isWrited = False
     while True:
+        enableEvent.wait()
         status = GPIO.input(GAS_PIN)
 
         if status == 0:
